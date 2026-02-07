@@ -2,6 +2,7 @@ import logging
 from fastapi import FastAPI, Request
 from aiogram import Bot, Dispatcher, types
 from app.config import config
+from app.bot.handlers import router as bot_router
 
 # Настройка логов [cite: 42]
 logging.basicConfig(level=getattr(logging, config.LOG_LEVEL))
@@ -9,7 +10,7 @@ logging.basicConfig(level=getattr(logging, config.LOG_LEVEL))
 # Инициализация бота и диспетчера
 bot = Bot(token=config.BOT_TOKEN.get_secret_value())
 dp = Dispatcher()
-
+dp.include_router(bot_router)
 app = FastAPI()
 
 @app.on_event("startup")
